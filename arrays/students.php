@@ -33,6 +33,6 @@ foreach ($students as $row) {
     echo "</tr>";
 }
 echo "<tr>";
-echo "<td colspan=5>Obsht sreden uspeh:</td><td>$allAverageMarks</td>";
+echo "<td colspan=5>Общ среден успех:</td><td>$allAverageMarks</td>";
 echo "</tr>";
 echo "</table>";
