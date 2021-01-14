@@ -11,6 +11,6 @@ foreach ($arr as $key => $value) {
     echo "{$key} => {$value} ";
     print_r($arr);
 }
-    
+
 echo "</br>";
 echo var_dump($arr);
