@@ -19,8 +19,14 @@ echo "<p></p>";
 $info = str_replace(" ", "", $info);
 $info = str_replace("]", "", $info);
 $info = str_replace("[", "", $info);
+$info = str_replace('"', "", $info);
 $info = explode(",", $info);
 
 foreach($info as $call) {
-    print_r ($call . "<br>"); 
+    $call = explode("/", $call);
+
+    foreach($call as $el) {
+        echo "<p></p>";
+        print_r($el . "<br>");
+    }
 }
