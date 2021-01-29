@@ -12,7 +12,7 @@
 </body>
 
 <?php
-
+$result = [];
 $info = implode($_POST);
 var_dump($info);
 echo "<p></p>";
@@ -26,7 +26,9 @@ foreach($info as $call) {
     $call = explode("/", $call);
 
     foreach($call as $el) {
-        echo "<p></p>";
         print_r($el . "<br>");
+        $type = substr($el, 0, strlen($el) - 1);
+
+        echo "<p></p>" . $type . "<p></p><br>";
     }
 }
