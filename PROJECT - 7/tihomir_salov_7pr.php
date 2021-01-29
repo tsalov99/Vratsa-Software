@@ -28,7 +28,8 @@ foreach($info as $call) {
     foreach($call as $el) {
         print_r($el . "<br>");
         $type = substr($el, 0, strlen($el) - 1);
-
-        echo "<p></p>" . $type . "<p></p><br>";
+        $index = substr($el, -1);
+        echo "<p></p>" . $type . "<p></p>";
+        echo $index . "<p></p><br>";
     }
 }
