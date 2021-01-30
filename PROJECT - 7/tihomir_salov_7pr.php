@@ -21,23 +21,22 @@ $info = str_replace("]", "", $info);
 $info = str_replace("[", "", $info);
 $info = str_replace('"', "", $info);
 $info = explode(",", $info);
+//print_r($info);
+foreach($info as $calls) {
+    $calls = explode("/", $calls);
+    $calls = array_slice($calls, 1, count($calls) - 1);
+    print_r($calls);
+    echo "<br>";
 
-foreach($info as $call) {
-    $call = explode("/", $call);
+    if(!in_array($calls[0], $result)) {
+        array_push($result, $calls[0]);
+    } else {
+        //da dobavq broqch za dublirashtite se zaqvki
 
-    foreach($call as $el) {
-      // print_r($el . "<br>");
-        
-        // proverka dali tozi element sushtestvuva
-        if (!array_key_exists($el, $result)) {
-            array_push($result, $result["$el"] = 1);
-            var_dump($result);  
-            echo "<br>";
+        if(!in_array($calls[1], $result)) {
+            array_push($result[$calls[0]], $calls[1]);
+        } else {
+
         }
-
-        $type = substr($el, 0, strlen($el) - 1);
-        $index = substr($el, -1);
-       // echo "<p></p>" . $type . "<p></p>";
-       // echo $index . "<p></p><br>";
     }
 }
