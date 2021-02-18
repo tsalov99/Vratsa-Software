@@ -27,31 +27,34 @@ foreach($info as $calls) {
     $calls = array_slice($calls, 1, count($calls) - 1);
 
     if(empty($result)) {
-        $result = ["projectType" => ["$calls[0]" => 1], "subprojectType" => ["$calls[1]" => 1, "methodType" => ["$calls[2]" => 1]]];
-        //print_r($result);
+        $result = ["$calls[0]" => 1,["$calls[1]" => 1,["$calls[2]" => 1]]];
+        var_dump($result);
+        echo "<br>";
 
         } else {
-            if (!array_key_exists($calls[0], $result["projectType"])) {
-                $result["projectType"] += ["$calls[0]" => 1];
+            if (!array_key_exists($calls[0], $result)) {
+                array_push($result, ["$calls[0]"]);
+                $result["$calls[0]"] = 1;
 
-                if (!array_key_exists($calls[1], $result["subprojectType"])) {
-                    $result["subprojectType"] += ["$calls[1]" => 1];
+                if (!array_key_exists($calls[1], $result)) {
+                    $result["$calls[1]"] = 1;
 
-                    if(!array_key_exists($calls[2], $result["subprojectType"]["methodType"])) {
-                        $result["subprojectType"]["methodType"] += ["$calls[2] => 1"];
+                    if(!array_key_exists($calls[2], $result)) {
+                        $result["$calls[2]"] = 1;
 
                     } else {
-                        $result["subprojectType"]["methodType"] += 1;
+                        $result["$calls[2]"] += 1;
                     }
                 } else {
-                    $result["subprojectType"]["$calls[1]"] += 1;
+                    $result["$calls[1]"] += 1;
                 }
                 //print_r($result["projects"]);
                 //echo "<br>";
             } else {
-                $result["projectType"]["$calls[0]"] += 1;
+                $result["$calls[0]"] += 1;
             }
         }
-    print_r($result);
-    echo "<br>";
+    //print_r($result);
+    //echo "<br>";
 }
+var_dump($result);
