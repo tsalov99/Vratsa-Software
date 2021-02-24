@@ -12,9 +12,9 @@
 </body>
 
 <?php
-$projects = [["project1" => 1, ]];
-$subprojects = [];
-$methods = [];
+$projects = ["pcounter" => 0, "subprojects" => ["subproject" => ["scounter" => 0, "methods" => ["method" => 0]]]];
+$subprojects = ["scounter" => 0, "methods" => []];
+$methods = ["method" => 0 ];
 $result = [];
 $info = implode($_POST);
 //var_dump($result);
@@ -30,19 +30,18 @@ foreach($info as $calls) {
     $calls = array_slice($calls, 1, count($calls) - 1);
 
     if(empty($result)) {
-        $result = ["$calls[0]" => [$calls[1], $calls[2]]];
-        //var_dump($result);
+        $result["$calls[0]"] = ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]];
+        var_dump($result);
     } else {
         if (array_key_exists($calls[0], $result)) {
-            array_push($result["$calls[0]"], $calls[1], $calls[2]);
+            array_push($result["$calls[0]"], $calls[0], $calls[1], $calls[2]);
             //var_dump($result);
             //echo "<br>";
         } else {
-            array_push($result, ["$calls[0]" => [$calls[1], $calls[2]]]);
-            var_dump($result);
-            echo "<br>";
+            $result += ["$calls[0]" => [$calls[0], $calls[1], $calls[2]]];
+            //var_dump($result);
+            //echo "<br>";
         }
     }
     //var_dump($calls);
 }
-//var_dump($result);
