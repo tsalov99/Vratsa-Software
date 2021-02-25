@@ -12,9 +12,9 @@
 </body>
 
 <?php
-$projects = ["pcounter" => 0, "subprojects" => ["subproject" => ["scounter" => 0, "methods" => ["method" => 0]]]];
-$subprojects = ["scounter" => 0, "methods" => []];
-$methods = ["method" => 0 ];
+//projects = ["pcounter" => 0, "subprojects" => ["subproject" => ["scounter" => 0, "methods" => ["method" => 0]]]];
+//subprojects = ["scounter" => 0, "methods" => []];
+//methods = ["method" => 0 ];
 $result = [];
 $info = implode($_POST);
 //var_dump($result);
@@ -31,7 +31,6 @@ foreach($info as $calls) {
 
     if(empty($result)) {
         $result["$calls[0]"] = ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]];
-        //var_dump($result);
     } else {
         if (array_key_exists($calls[0], $result)) {
             $result["$calls[0]"]["pcounter"] += 1;
@@ -47,13 +46,22 @@ foreach($info as $calls) {
             } else {
                 $result["$calls[0]"]["subprojects"]["$calls[1]"] = ["scounter" => 1, "methods" => ["$calls[2]" => 1]];
             }
-           // $result["$calls[0]"]["subprojects"] += ["$calls[1]"] = ["scounter" => 1, "methods" => ["$calls[2]" => 1]]
         } else {
             $result += ["$calls[0]" => ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]]];
-            //var_dump($result);
-            //echo "<br>";
         }
     }
-    //var_dump($calls);
 }
-var_dump($result);
+//var_dump($result);
+
+foreach($result as $project => $values) {
+    echo "--" . "$project" . " (" . "$values[pcounter]" . ")";
+    echo "<br>";
+    foreach($values["subprojects"] as $subproject => $subValues) {
+        echo "----" . "$subproject" . " (" . "$subValues[scounter]" . ")";
+        echo "<br>";
+        foreach($subValues["methods"] as $methods => $metValues) {
+            echo "------" . "$methods" . " (" . "$metValues" . ")";
+            echo "<br>";
+        }
+    }
+}
