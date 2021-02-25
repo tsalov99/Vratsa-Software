@@ -31,17 +31,29 @@ foreach($info as $calls) {
 
     if(empty($result)) {
         $result["$calls[0]"] = ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]];
-        var_dump($result);
+        //var_dump($result);
     } else {
         if (array_key_exists($calls[0], $result)) {
-            array_push($result["$calls[0]"], $calls[0], $calls[1], $calls[2]);
-            //var_dump($result);
-            //echo "<br>";
+            $result["$calls[0]"]["pcounter"] += 1;
+
+            if (array_key_exists($calls[1], $result["$calls[0]"]["subprojects"])) {
+               $result["$calls[0]"]["subprojects"]["$calls[1]"]["scounter"] += 1;
+
+               if (array_key_exists($calls[2], $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"])) {
+                   $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"]["$calls[2]"] += 1;
+               } else {
+                   $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"]["$calls[2]"] = 1;
+               }
+            } else {
+                $result["$calls[0]"]["subprojects"]["$calls[1]"] = ["scounter" => 1, "methods" => ["$calls[2]" => 1]];
+            }
+           // $result["$calls[0]"]["subprojects"] += ["$calls[1]"] = ["scounter" => 1, "methods" => ["$calls[2]" => 1]]
         } else {
-            $result += ["$calls[0]" => [$calls[0], $calls[1], $calls[2]]];
+            $result += ["$calls[0]" => ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]]];
             //var_dump($result);
             //echo "<br>";
         }
     }
     //var_dump($calls);
 }
+var_dump($result);
