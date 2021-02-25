@@ -12,6 +12,9 @@
 </body>
 
 <?php
+//projects = ["pcounter" => 0, "subprojects" => ["subproject" => ["scounter" => 0, "methods" => ["method" => 0]]]];
+//subprojects = ["scounter" => 0, "methods" => []];
+//methods = ["method" => 0 ];
 $result = [];
 $info = implode($_POST);
 //var_dump($result);
@@ -21,37 +24,44 @@ $info = str_replace("]", "", $info);
 $info = str_replace("[", "", $info);
 $info = str_replace('"', "", $info);
 $info = explode(",", $info);
-//print_r($info);
+
 foreach($info as $calls) {
     $calls = explode("/", $calls);
     $calls = array_slice($calls, 1, count($calls) - 1);
 
     if(empty($result)) {
-        $result = ["projectType" => ["$calls[0]" => 1], "subprojectType" => ["$calls[1]" => 1, "methodType" => ["$calls[2]" => 1]]];
-        //print_r($result);
+        $result["$calls[0]"] = ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]];
+    } else {
+        if (array_key_exists($calls[0], $result)) {
+            $result["$calls[0]"]["pcounter"] += 1;
 
-        } else {
-            if (!array_key_exists($calls[0], $result["projectType"])) {
-                $result["projectType"] += ["$calls[0]" => 1];
+            if (array_key_exists($calls[1], $result["$calls[0]"]["subprojects"])) {
+               $result["$calls[0]"]["subprojects"]["$calls[1]"]["scounter"] += 1;
 
-                if (!array_key_exists($calls[1], $result["subprojectType"])) {
-                    $result["subprojectType"] += ["$calls[1]" => 1];
-
-                    if(!array_key_exists($calls[2], $result["subprojectType"]["methodType"])) {
-                        $result["subprojectType"]["methodType"] += ["$calls[2] => 1"];
-
-                    } else {
-                        $result["subprojectType"]["methodType"] += 1;
-                    }
-                } else {
-                    $result["subprojectType"]["$calls[1]"] += 1;
-                }
-                //print_r($result["projects"]);
-                //echo "<br>";
+               if (array_key_exists($calls[2], $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"])) {
+                   $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"]["$calls[2]"] += 1;
+               } else {
+                   $result["$calls[0]"]["subprojects"]["$calls[1]"]["methods"]["$calls[2]"] = 1;
+               }
             } else {
-                $result["projectType"]["$calls[0]"] += 1;
+                $result["$calls[0]"]["subprojects"]["$calls[1]"] = ["scounter" => 1, "methods" => ["$calls[2]" => 1]];
             }
+        } else {
+            $result += ["$calls[0]" => ["pcounter" => 1, "subprojects" => ["$calls[1]" => ["scounter" => 1, "methods" => ["$calls[2]" => 1]]]]];
         }
-    print_r($result);
+    }
+}
+//var_dump($result);
+
+foreach($result as $project => $values) {
+    echo "--" . "$project" . " (" . "$values[pcounter]" . ")";
     echo "<br>";
+    foreach($values["subprojects"] as $subproject => $subValues) {
+        echo "----" . "$subproject" . " (" . "$subValues[scounter]" . ")";
+        echo "<br>";
+        foreach($subValues["methods"] as $methods => $metValues) {
+            echo "------" . "$methods" . " (" . "$metValues" . ")";
+            echo "<br>";
+        }
+    }
 }
