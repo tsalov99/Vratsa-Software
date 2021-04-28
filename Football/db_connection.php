@@ -3,8 +3,8 @@
 function OpenCon()
  {
  $dbhost = "localhost";
- $dbuser = "tisho";
- $dbpass = "415514";
+ $dbuser = "root";
+ $dbpass = "";
  $db = "football";
 
 
@@ -14,8 +14,8 @@ function OpenCon()
  return $conn;
  }
  
-function CloseCon($conn)
- {
+function CloseCon($conn) {
+
  $conn -> close();
  }
    
