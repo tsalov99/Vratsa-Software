@@ -2,9 +2,10 @@
 <html>
     <body>
         <form method="post">
-            <input name="firstName" type="text" placeholder="Име">
-            <input name="secondName" type="text" placeholder="Презиме">
-            <input name="lastName"type="text" placeholder="Фамилия">
+            <input name="names" type="text" placeholder="Name...">
+            <input name="birthDate" type="number" placeholder="Birthdate...">
+            <input name="height" type="number" placeholder="Height...">
+            <input name="weight" type="number" placeholder="Weight...">
             <input type="submit">
         </form>
     </body>
@@ -15,18 +16,17 @@
     $username = "root";
     $password = "pass";
     $dbname = "football";
-    $firstname = $_POST['firstName'];
-    $secondname = $_POST['secondName'];
-    $thirdname = $_POST['lastName'];
-    
+    $name = $_POST['names'];
+    $age = $_POST['birthDate'];
+    $height = $_POST['height'];
+    $weight = $_POST['weight'];
+
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die ("Има проблем с връзката. Моля опитайте отново");
     }
-    var_dump($_POST);
 
-    $sql = "SELECT player_id, playerFirstName FROM players";
+    $sql = "INSERT INTO players (`playerName`, `Age`, `Height`, `Weight`) VALUES ('$name', $age, $height, $weight)";
     $result = $conn->query($sql);
 
-    var_dump ($sql);
-    ?>
+    var_dump ($result);
